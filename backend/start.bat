@@ -11,10 +11,16 @@ set "SCRIPT_DIR=%~dp0"
 cd /d "%SCRIPT_DIR%"
 
 REM ---------------- paths (edit if needed) ----------------
-set "JDK_HOME=C:\Users\msr150174\.jdks\openjdk-25"
-set "M2_REPO=C:\Users\msr150174\.m2\repository"
-set "REDIS_DIR=D:\redis"
-set "MYSQL_HOME=D:\mysql"
+REM 可用同名环境变量覆盖，便于在他人机器上运行：
+REM   set JDK_HOME=D:\jdk\openjdk-17 & set MYSQL_HOME=C:\mysql & ...
+set "JDK_HOME_DEFAULT=C:\Users\msr150174\.jdks\openjdk-25"
+set "M2_REPO_DEFAULT=C:\Users\msr150174\.m2\repository"
+set "REDIS_DIR_DEFAULT=D:\redis"
+set "MYSQL_HOME_DEFAULT=D:\mysql"
+if "%JDK_HOME%"==""   set "JDK_HOME=%JDK_HOME_DEFAULT%"
+if "%M2_REPO%"==""    set "M2_REPO=%M2_REPO_DEFAULT%"
+if "%REDIS_DIR%"==""  set "REDIS_DIR=%REDIS_DIR_DEFAULT%"
+if "%MYSQL_HOME%"=="" set "MYSQL_HOME=%MYSQL_HOME_DEFAULT%"
 set "MAIN_CLASS=com.guardian.GuardianApplication"
 set "API_BASE=http://localhost:3000"
 set "OUT_DIR=%SCRIPT_DIR%target\classes"

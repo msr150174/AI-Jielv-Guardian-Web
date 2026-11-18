@@ -9,14 +9,20 @@ REM ============================================================================
 set "SCRIPT_DIR=%~dp0"
 cd /d "%SCRIPT_DIR%"
 
-set "MYSQL_HOME=D:\mysql"
+set "MYSQL_HOME_DEFAULT=D:\mysql"
+set "REDIS_DIR_DEFAULT=D:\redis"
+if "%MYSQL_HOME%"=="" set "MYSQL_HOME=%MYSQL_HOME_DEFAULT%"
+if "%REDIS_DIR%"==""  set "REDIS_DIR=%REDIS_DIR_DEFAULT%"
 set "MYSQL_BIN=%MYSQL_HOME%\bin\mysql.exe"
 set "MYSQLD=%MYSQL_HOME%\bin\mysqld.exe"
 set "MYSQL_SERVICE=MYSQL80"
-set "REDIS_DIR=D:\redis"
 set "DB_NAME=znwg"
 set "DB_USER=root"
-set "DB_PASS=msr150174"
+REM ★ 密码不硬编码：从环境变量 MYSQL_PASSWORD 读取（.env / 系统环境变量）
+if "%MYSQL_PASSWORD%"=="" (
+    echo [WARN] MYSQL_PASSWORD 未设置，数据库初始化将跳过。请先设置该环境变量。
+)
+set "DB_PASS=%MYSQL_PASSWORD%"
 REM schema file candidates, first existing one wins
 REM V1__init_schema.sql is now the znwg edition (creates database znwg)
 set "SCHEMA=%SCRIPT_DIR%..\..\db\V1__init_schema.sql"
